@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+     xmlns="http://www.springframework.org/schema/beans"  
+     xmlns:p="http://www.springframework.org/schema/p"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">   
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+    destroy-method="close">
+        <!-- 指定连接数据库的驱动 -->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <!-- 指定连接数据库的URL -->
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/housekeeping?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <!-- 指定连接数据库的用户名 -->
+        <property name="user" value="root"/>
+        <!-- 指定连接数据库的密码 -->
+		<property name="password" value="123456"/>
+        <!-- 指定连接数据库连接池的最大连接数 -->
+        <property name="maxPoolSize" value="40"/>
+        <!-- 指定连接数据库连接池的最小连接数 -->
+        <property name="minPoolSize" value="1"/>
+        <!-- 指定连接数据库连接池的初始化连接数 -->
+        <property name="initialPoolSize" value="1"/>
+        <!-- 指定连接数据库连接池的连接最大空闲时间,改时间段内不对数据库做任何操作，既断开链接 -->
+        <property name="maxIdleTime" value="20"/>
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <!-- 依赖注入数据源，正是上文定义的dataSource -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- mappingResources属性用来列出全部映射文件 -->
+        <property name="annotatedClasses">
+            <list>
+                <!-- 以下用来列出所有的PO映射文件 -->
+                
+                <value>model.User </value>
+                <value>model.Chat</value>
+                <value>model.Comment</value>
+                <value>model.CompanyStoreCheck</value>
+                <value>model.Demand</value>
+                <value>model.SingleStoreCheck</value>
+                 <value>model.Order </value>
+                 <value>model.PreOrder</value>
+                  <value>model.WorkOrder</value>
+                 <value>model.OverOrder </value>
+                 <value>model.SingleStore</value>
+                 <value>model.CompanyStore</value>
+                  <value>model.Province</value>
+                   <value>model.City</value>
+                    <value>model.Region</value>
+                    <value>model.Street</value>
+                     <value>model.StoreApplyInformation</value>
+                      <value>model.Collection</value>
+                     <value>model.Admin</value>
+            </list>
+        </property>
+          <!-- 定义Hibernate的SessionFactory属性 -->
+        <property name="hibernateProperties">
+             <props>
+                <!-- 指定Hibernate的连接方言 -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!-- 配置启动应用时，是否根据Hibernate映射自动创建数据表 -->
+                  <prop key="hibernate.hbm2ddl.auto">update</prop>
+                 <prop key="hibernate.connection.useUnicode">true</prop> 
+                 <prop key="hibernate.connection.characterEncoding">utf-8</prop> 
+                 <prop key="hibernate.current_session_context_class">thread</prop> 
+           </props>
+        </property>
+    </bean>
+     <bean id="userDao" class="dao.UserDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="chatDao" class="dao.ChatDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="commentDao" class="dao.CommentDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="companyStoreCheckDao" class="dao.CompanyStoreCheckDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="demandDao" class="dao.DemandDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="singleStoreCheckDao" class="dao.SingleStoreCheckDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="orderDao" class="dao.OrderDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="preOrderDao" class="dao.PreOrderDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="workOrderDao" class="dao.WorkOrderDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="overOrderDao" class="dao.OverOrderDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="singleStoreDao" class="dao.SingleStoreDao" p:sessionFactory-ref="sessionFactory"></bean>
+    <bean id="companyStoreDao" class="dao.CompanyStoreDao" p:sessionFactory-ref="sessionFactory"></bean>
+     <bean id="provinceDao" class="dao.ProvinceDao" p:sessionFactory-ref="sessionFactory"></bean>
+      <bean id="cityDao" class="dao.CityDao" p:sessionFactory-ref="sessionFactory"></bean>
+       <bean id="regionDao" class="dao.RegionDao" p:sessionFactory-ref="sessionFactory"></bean>
+        <bean id="streetDao" class="dao.StreetDao" p:sessionFactory-ref="sessionFactory"></bean>
+         <bean id="storeApplyInformationDao" class="dao.StoreApplyInformationDao" p:sessionFactory-ref="sessionFactory"></bean>
+        <bean id="adminDao" class="dao.AdminDao" p:sessionFactory-ref="sessionFactory"></bean>
+           <bean id="collectionDao" class="dao.CollectionDao" p:sessionFactory-ref="sessionFactory"></bean>
+</beans> 

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, 
+			initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+        <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js" ></script>
+       	<script src="js/angular.min.js"></script>
+		<title>首页</title>
+		<style>
+			body{
+				color: #333333;
+				background-color: #E4E4E4;
+				}
+			a{
+				color: #56A590;
+			}
+			a:hover,a:focus{
+				color: #209E85;
+			}
+			.content-item{
+				overflow: hidden;
+				margin-bottom:13px ;
+				background: #fff;
+				height:10rem;
+				box-shadow: 8px 8px 5px #888888; 
+				cursor:pointer;
+			}
+			.content-item:hover{
+				background: #E4E4E4;
+			}
+			.content-item:focus{
+				background: #E4E4E4;
+			}
+			.content-item-text{
+				padding: 10px;
+			}
+			.content-item-text>p{
+				position: relative;
+				left: 2rem;
+			}
+			.content-item img{
+				
+				width: 10rem;
+				height: 10rem;	
+				margin: 0;	
+				padding: 0;		
+	 		}
+			.content-item-img>div{ 
+				display: block;
+				width: 10rem;
+				height: 10rem;
+			}
+			
+			
+			@media screen and (max-width: 768px) {
+				.service-catalog li{
+					width: 30%;
+				}
+				.navbar-header{
+				background: #00CA79;
+			}
+			
+			.navbar-brand{
+				color: white;
+			}
+			
+			.navbar-header > .navbar-brand {
+				color: white;
+			}
+			
+			.navbar-toggle{
+				background: white;
+			}
+			
+			.navbar-collapse{
+				background: white;
+			}
+
+			
+			}
+
+		</style>
+	</head>
+	<body ng-app="page-content" ng-controller="page-ctrl">
+		<script type="application/javascript">
+			var nowPage=1;
+			var storeData=[];
+			var pageContent=angular.module("page-content",[]);
+		 	pageContent.controller('page-ctrl', function($scope,$http) {
+		 		$scope.toStoreInf=function(storeId){
+		 			window.sessionStorage.setItem('storeId',storeId);
+		 			location.href="toGetStoreInformation.action";
+		 		};
+		 		function getStores(){
+		 			$http({
+	                method: "GET", 
+	                url: "getStores?page="+nowPage,
+		          }).then(function(data){
+		           		var dataJson=data.data;
+						var resultMap=dataJson['resultMap'];
+						storeData=storeData.concat(resultMap['single']);
+						storeData=storeData.concat(resultMap['company']);
+						$scope.std=storeData;
+						nowPage++;
+		           },
+		           function(data){
+		           		alert('加载数据失败');
+		           }
+		           );
+		 		
+		 		}
+
+			function init(){
+				$.ajax({
+					type:"get",
+					url:"initIndex",
+					async:true,
+					success:function(msg){
+						var dataJson=eval(msg);
+						var result=dataJson['resultMap'];
+						if(result['logined']=="yes"){
+							$('#login-btn').text('退出登录');
+							$('#login-btn').click(function(){
+								location.href="exitUser?pageState=toIndex";
+							});							
+						}
+					},
+					error:function(){
+						
+					}
+				});
+
+			}
+			$(document).ready(function(){
+				init();
+				getStores();
+				$('#login-btn').click(function(){
+					location.href="toLogin?pageState=toIndex";
+				});
+				$(window).scroll(function(){
+				  if ($(document).scrollTop() + $(window).height() >= $(document).height()) {
+				       getStores();
+				    }
+			});
+			});
+			
+			
+		});
+
+		</script>
+		<div class="container">
+			<div class="page-header clearfix">
+				<div class="navbar  navbar-default">
+					<div class="container">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">首页</a>
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>	
+					<div class="collapse navbar-collapse" id="example">
+						<ul class="navbar-nav nav nav-pills nav-stacked">
+							<li class="clearfix">
+								<div class="input-group col-xs-3 pull-left" style="margin-top:0px; positon:relative;left:2px;">  
+					                <button id="login-btn" class="btn btn-info btn-search">登录</button>
+								</div>
+								<div class="input-group col-xs-3 pull-right" style="margin-top:0px; positon:relative;right:15px;min-width: 180px;">  
+	       							<input type="text" class="form-control"placeholder="请输入商家名称" / >  
+					            	<span class="input-group-btn">  
+					                <button class="btn btn-info btn-search">查找</button></span>
+								</div>
+							</li>
+							<li class="dropdown clearfix service-catalog">
+									<a data-toggle="dropdown" href="#">服务分类<b class="caret"></b></a>
+									<ul class="dropdown-menu nav-pills">
+									<li class="active"><a href="#">全部</a></li>
+									<li><a href="#">月嫂</a></li>
+									<li><a href="#">保姆服务</a></li>
+									<li><a href="#">日常保洁</a></li>
+									<li><a href="#">新居开荒</a></li>
+									<li><a href="#">擦玻璃</a></li>
+									<li><a href="#">家电清洗</a></li>
+									<li><a href="#">家电维修</a></li>
+									</ul>
+							</li>
+							<li><a href="toUserPage?pageState=toUserPage">个人中心</a></li>
+							<li><a href="toPushDemand?pageState=toPushDemand">需求发布</a></li>
+							<li><a href="#">订单管理</a></li>
+							<li><a href="#">消息中心</a></li>
+							
+						</ul>
+					</div>
+					</div>
+				</div>	
+			</div>
+			<div class="page-content">
+				<div class="row">
+					<div  class=" col-xs-12 col-sm-6 col-lg-4" ng-repeat="store in std" ng-click="toStoreInf(store.storeId)">
+						<div class="content-item"">
+							<div class="pull-left content-item-img ">
+							<img src="getStorePic?storeId={{store.storeId}}&storeType={{store.storeType}}" width="100%" />
+							</div>
+							<div class="content-item-text">
+								<p class="text-1"><big>{{store.storeName}}</big></p>
+								<p class="text-2"><small>服务范围：{{store.rangeType}}</small> &nbsp;&nbsp;&nbsp;<small>店铺类型：{{store.storeType}}</small></p>
+								<p class="text-3"><small><span>综合评分：{{store.sumScore}}</span><span style="margin-left: 20px;">累计订单数:{{store.orderCount}}</span></small></p>
+							</div>
+						</div>
+					</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>	
+	</body>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+     xmlns="http://www.springframework.org/schema/beans"  
+     xmlns:p="http://www.springframework.org/schema/p"
+     xmlns:context="http://www.springframework.org/schema/context" 
+     xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/context  
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     ">   
+
+     <context:annotation-config />
+     <context:component-scan base-package="action"></context:component-scan>
+     <context:component-scan base-package="service"></context:component-scan>
+    <bean id="loginAction" class="action.LoginAction" scope="prototype"/>
+    <bean id="registerAction" class="action.RegisterAction" scope="prototype"/>
+    <bean id="JumpAction" class="action.JumpAction"></bean>
+    <bean id="addressManager" class="action.AddressManagerAction"></bean>
+    <bean id="AddressManager2Action" class="action.AddressManager2Action"></bean>
+    <bean id="selectArea" class="action.SelectAreaAction" scope="prototype"></bean>
+     <bean id="operateAddress" class="action.OperateAddress" scope="prototype"></bean>
+	<bean id="pswManagerAction" class="action.PswManagerAction" scope="prototype"></bean>
+	<bean id="InitPushDemandAction" class="action.InitPushDemandAction" scope="prototype"></bean>
+	<bean id="InitPushDemandAddressAction" class="action.InitPushDemandAddressAction" scope="prototype"></bean>
+	<bean id="InitIndexAction" class="action.InitIndexAction" scope="prototype"></bean>
+	<bean id="PushDemandAction" class="action.PushDemandAction" scope="prototype"></bean>
+	<bean id="ExitUserAction" class="action.ExitUserAction" scope="prototype"></bean>
+	<bean id="SetPositionAction" class="action.SetPositionAction" scope="prototype"></bean>
+	<bean id="CommitApplyAction" class="action.CommitApplyAction" scope="prototype"></bean>
+	<bean id="StoreEnterAction" class="action.StoreEnterAction" scope="prototype"></bean>
+	<bean id="AdminLoginAction" class="action.AdminLoginAction" scope="prototype"></bean>
+	<bean id="InitApplyStoreAction" class="action.InitApplyStoreAction" scope="prototype"></bean>
+	<bean id="GetPictureAction" class="action.GetPictureAction" scope="prototype"></bean>
+	<bean id="GetApplyStoreAction" class="action.GetApplyStoreAction" scope="prototype"></bean>
+	<bean id="CheckResultAction" class="action.CheckResultAction" scope="prototype"></bean>
+	<bean id="GetStoresAction" class="action.GetStoresAction" scope="prototype"></bean>
+	<bean id="GetStorePicAction" class="action.GetStorePicAction" scope="prototype"></bean>
+	<bean id="GetStoreInformationAction" class="action.GetStoreInformationAction" scope="prototype"></bean>
+	
+</beans>   

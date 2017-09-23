@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<script src="js/jquery-3.1.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<title></title>
+		<style>
+			@font-face {font-family: 'iconfont';
+                  src: url('font/iconfont.eot'); /* IE9*/
+                  src: url('font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                  url('font/iconfont.woff') format('woff'), /* chrome、firefox */
+                  url('font/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                  url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+               }
+               
+               .iconfont{font-family:"iconfont" !important;
+                      font-style:normal;
+                      -webkit-font-smoothing: antialiased;
+                      -webkit-text-stroke-width: 0.05rem;
+                      }
+			.header{
+				width: 100%;
+				background: #00CA79;
+				height: 5.5rem;
+			}
+			
+			.inf-head{
+				height: 8rem;
+				
+			}
+			
+			.body{
+				font-family: "微软雅黑";
+			}
+			.inf-head-left{
+				float: left;
+				height: 8rem;
+				line-height:8rem;
+				width: 80%;
+				text-align: center;
+			}
+			.inf-head-right{
+				float: right;
+				height: 8rem;
+				width: 20%;
+				line-height:8rem;
+				position: relative;
+			}
+			
+			.wu{
+				font-size: 3.7rem;
+				color:#FF9900;
+				cursor: pointer;
+			}
+			
+			.wu1{
+				color:#FF9900;
+				position: absolute;
+				bottom: -2.5rem;
+				left:0.5rem;
+				z-index: -1;
+			}
+			.block-1{
+				background: #efefef;
+				height:10px;
+			}
+			
+			.store-name{
+				font-size: 2.8rem;
+				font-family: "微软雅黑";
+			}
+			
+			.inf-item{
+				padding: 5px;
+				padding-bottom: 0px;
+			}
+			
+			.inf-item-1{
+				padding-top: 30px;
+			}
+			
+			.service-inf{
+				font-size: 2rem;
+				
+			}
+			.service-inf-left{
+				float: left;
+				width: 70%;
+				padding-top: 0.5rem;
+			}
+			.service-inf-right{
+				float: right;
+				width: 30%;
+				position: relative;
+			}
+			
+			.order-btn{
+				position: absolute;
+				top: 7rem;
+			}
+			
+			.tel{
+				color: #000000;
+				text-decoration: none;
+			}
+			.tel:visited{
+				color: #000000;
+				text-decoration: none;
+			}
+			
+			.tel:focus{
+				color: #000000;
+				text-decoration: none;
+			}
+			
+			.nav a{
+				color: #555;
+			}
+			
+			.detail-inf{
+				margin-top: 15px;
+				margin-bottom: 15px;
+				width:88%;
+				font-size: 1.6rem;
+			}
+			
+			.store-pic{
+				margin-bottom: 1rem;
+				max-width: 600px;
+			}
+			.comment{
+				display: none;
+				margin: 15px;
+			}
+			
+			.commemt-date{
+				font-size: 1.3rem;
+				margin-left: 3rem;
+			}
+			
+			.comment-item{
+				margin: 15px;
+			}
+			.fa{
+				color: #fff;
+				font-size:2.5rem;
+				cursor: pointer;
+				line-height: 5.5rem;
+				margin-left:10px;
+			}
+		</style>
+		
+	</head>
+	<body ng-app="page-content" ng-controller="page-ctrl">
+		<script>
+			
+			var storeId=window.sessionStorage.getItem('storeId');
+			
+			var pageContent=angular.module("page-content",[]);
+		 	pageContent.controller('page-ctrl',function($scope,$http){
+		 		$scope.collected=false;
+		 		function init(){
+		 			
+		 			$http({ 
+		 				method:"GET",
+		 				url:"getStoreInformation.action?storeId="+storeId,
+		 			}).then(function(data){
+		 				var dataJson=data.data;
+		 				var resultMap=dataJson['resultMap'];
+		 				$scope.storeName=resultMap['storeName'];
+		 				$scope.storeType=resultMap['storeType'];
+		 				$scope.rangeType=resultMap['rangeType'];
+		 				$scope.province=resultMap['procince'];
+		 				$scope.city=resultMap['city'];
+		 				$scope.region=resultMap['region'];
+		 				$scope.street=resultMap['street'];
+		 				$scope.detail=resultMap['detail'];
+		 				$scope.price=resultMap['price'];
+		 				$scope.serviceCount=resultMap['serviceCount'];
+		 				$scope.score=resultMap['score'];
+		 				$scope.linkPhone=resultMap['linkPhone'];
+		 				$scope.commentList=resultMap['commentList'];
+		 			},function(data){
+		 				
+		 				
+		 			});
+		 			
+		 			$.ajax({
+		 				method:"GET",
+		 				url:"collectState.action",
+		 				dataType:'json',
+		 				data:{
+		 					storeId:storeId
+		 				},
+		 				success:function(msg){
+		 					var data=eval(msg);
+		 					var state=data.resultMap.collectState;
+		 					if(state=='yes'){
+		 						$scope.collected=true;
+		 					}else{
+		 						$scope.collected=false;
+		 					}
+		 					$scope.$apply();
+		 				},
+		 				error:function(){
+		 					
+		 				}
+		 			});
+		 		}
+		 		
+		 		function collect(){
+		 			$.ajax({
+		 				method:"POST",
+		 				url:"collect.action",
+		 				data:{
+		 					storeId:storeId
+		 				},
+		 				dataType:'json',
+		 				success:function(msg){
+		 					var data=eval(msg);
+		 					var result=data.resultMap.result;
+		 					if(result=='unlogin'){
+		 						location.href="toLogin?pageState=toGetStoreInformation";
+		 					}
+		 					if(result=='success'){
+		 						var collectState=data.resultMap.collectState;
+		 						if(collectState=='yes'){
+		 							$scope.collected=true;
+			 					}else{
+			 						$scope.collected=false;
+			 					}
+			 					$scope.$apply();
+		 					}
+		 				},
+		 				error:function(){
+		 					
+		 				}
+		 			});
+		 		}
+		 		
+		 		$(document).ready(function(){
+			 		init();
+					$("#store-inf").click(function(){
+						$('.store-inf').show();
+						$('.comment').hide();
+						$('#comment').removeClass('active');
+						$('#store-inf').addClass('active');
+					});
+					
+					$('#comment').click(function(){
+						$('.store-inf').hide();
+						$('.comment').show();
+						$('#comment').addClass('active');
+						$('#store-inf').removeClass('active');
+					});
+					$('.fa').click(function(){
+						location.href='toIndex';
+					});
+					$('#collect').click(function(){
+						 collect();
+					});
+					
+					$('#order-btn').click(function(){
+						var sessionSto=window.sessionStorage;
+						sessionSto.setItem('orderStoreId',storeId);
+						sessionSto.setItem('orderStoreName',$scope.storeName);
+						location.href="toGenerateOrder";
+					});
+			});
+		 	});
+		</script>
+		<div class="container">
+			<div class="header">
+				<span class="glyphicon glyphicon-menu-left fa"></span>
+			</div>
+			<div class="inf-head">
+				<div class="inf-head-left"><span class="store-name">{{storeName}}</span></div>
+				<div class="inf-head-right">
+					<span class="iconfont wu" id="collect">{{collected==true?'&#xe6cb;':'&#xe881;'}}</span> 
+					<span class="wu1">{{collected==true?'已收藏':'收藏'}}</span>
+				</div>
+				
+			</div>
+			<div class="block-1"></div>
+			<div class="inf">
+				<p class="inf-item inf-item-1"><span>店铺类型:</span><span class="store-type">{{storeType}}</span></p>
+				<p class="inf-item"><span>服务类型:</span><span class="range-type">{{rangeType}}</span></p>
+				<p class="inf-item"><span>商家地址:</span><span class="province">{{province}}</span><span class="city">{{city}}</span><span class="region">{{region}}</span><span class="street">{{street}}</span><span class="detail">{{detail}}</span></p>
+				<p class="inf-item"><span>联系商家:</span>&nbsp;&nbsp;&nbsp;<span class="iconfont">&#xe61d;</span ><a class="tel" href="tel:{{linkPhone}}">{{linkPhone}}</a></p>
+			</div>
+			<div class="block-1"></div>
+			<div class="service-inf clearfix">
+				<div class="service-inf-left ">
+					<p>价格:<span class="price">{{price}}</span></p>
+					<p>总服务次数:<span class="ser-counts">{{serviceCount}}</span></p>
+					<p style="margin: 0;">总评分:<span class="score">{{score}}</span></p>
+				</div>
+				<div class="service-inf-right">
+					<div class="btn btn-primary order-btn" id="order-btn">立即预约</div>
+				</div>
+			</div>
+			<hr/>
+			<ul class="nav nav-tabs">
+			  <li id="store-inf" class="active"><a href="#store-inf">详细信息</a></li>
+			  <li id="comment"><a href="#comment">全部评价</a></li>
+			</ul>
+			<div class="store-inf">
+				<div class="detail-inf text-info">
+				{{storeInf}}
+				</div>
+				<!--<div class="store-pic">
+					<img src="img/aaa.jpg" width="100%"><br>
+					<img src="img/bbb.jpg" width="100%"><br>
+					<img src="img/ccc.jpg" width="100%"><br>
+				</div>-->
+			</div>
+			<div class="comment">
+				<div class="comment-item" ng-repeat="comment in commentList">
+					<div class="comment-inf">
+						<span class="commemt-user">{{comment.user}}</span>
+						<span class="commemt-date">{{comment.date}}</span>
+					</div>
+					<div class="comment-content">
+						{{comment.content}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

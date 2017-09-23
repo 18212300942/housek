@@ -1,0 +1,211 @@
+.iconfont{font-family:"iconfont" !important;
+                      font-style:normal;
+                      -webkit-font-smoothing: antialiased;
+                      -webkit-text-stroke-width: 0.05rem;
+                      }
+html{
+        		width: 100%;
+        		height:100%;
+        		margin: 0px;
+        		padding: 0px;
+        	}
+body{
+        		width: 100%;
+        		height:100%;
+        		margin: 0px auto;
+        		padding: 0px;
+        		
+        	}
+a{
+	cursor:pointer;
+}        	
+.container{
+                height: 100%;
+        		padding: 0px;
+        	    max-width: 480px;
+        	    min-width: 200px;
+        	    margin: 0 auto;  	  
+}
+header{
+	
+}
+div .head_div{
+	height: 16.5rem;
+	width:100%;
+  z-index: 10;
+	position: fixed;
+	max-width: 480px;
+    min-width: 200px;
+     margin: 0 auto;
+    text-align: center;
+}
+.to-index{
+					cursor: pointer;
+					padding: 0;
+					font-size: 2.5rem;
+					color: white;
+					position: absolute;
+					left: 1.5rem;
+					top:1.9rem;
+					z-index: 10;	
+					-webkit-font-smoothing: antialiased;
+                    -webkit-text-stroke-width: 0rem;
+				}
+.to-index-text{
+	font-size: 1.7rem;
+	font-weight: 600;
+	-webkit-font-smoothing: antialiased;
+                -webkit-text-stroke-width: 0rem;
+}
+.to-exit{
+					cursor: pointer;
+					padding: 0;
+					font-size: 2.5rem;
+					color: white;
+					position: absolute;
+					right: 1.5rem;
+					top:1.9rem;
+					z-index: 10;	
+					-webkit-font-smoothing: antialiased;
+                    -webkit-text-stroke-width: 0rem;
+				}
+.to-exit-text{
+	font-size: 1.7rem;
+	font-weight: 600;
+	-webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0rem;
+}
+.can{
+	width: 100%;
+	height: 100%;
+	
+	
+}
+div .block{
+	height: 15rem;
+	width:100%;
+}
+.photo{
+	display: block;
+	margin: 0 auto;
+  left: 0;
+	right:0;
+  border: 0.2rem solid white;
+	background: white;
+  border-radius:40%;
+	position: fixed;
+	top: 7.5rem;
+	z-index: 10;
+}
+
+.user-name{	
+	color: white;
+	font-size: 1.6rem;
+}
+.name-div{
+	width: 100%;
+	position:absolute;
+	top: 3rem;
+	margin: 0 auto;
+	left: auto;
+	right: auto;
+	max-width: 480px;
+    min-width: 200px;
+	text-align: center;
+	z-index: 5;
+}
+.art {
+	
+	width:100%;
+	height: 6rem;
+	
+}
+.cash-list{
+	width: 100%;
+	height: 6rem;
+	display: -webkit-box;
+	display: -moz-box;
+	margin: 0px;
+	padding: 0px;
+}
+
+.cash{
+	width: 1px;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	text-align: center;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+}
+
+.cash p{
+	width: 100%;
+	text-align: center;
+}
+.collect{
+	border:1px solid rgba(200,200,200,0.1);
+	border-top: none;
+	border-bottom: none;
+}
+
+.count{
+	z-index: 0;
+	position: absolute;
+	color: #00ca79;
+	font-size: 1.8rem;
+	font: bold;
+	top:1rem;
+}
+
+.dis-text{
+	z-index: 0;
+	position: absolute;
+	font-size:1.1rem;
+	top:3.5rem
+}
+
+.store-enter{
+	height: 8rem;
+	line-height: 8rem;
+	text-align: center;
+	font-size: 2.5rem;
+	background:#00ca79;
+	color: white;
+	border: 1px solid #eeeeee;
+	margin: 0;
+	border-radius:0.3rem ;
+	position: relative;
+	z-index: 0;
+}
+
+#tree{
+   display: block;
+   width: 100%;
+   position: absolute;
+   top: 2.4rem;
+   text-align: center;
+}
+
+.option-lists{
+	display: none;
+	
+}
+.option{
+	margin: 0 ;
+	padding: 0 2rem;
+	height: 5.5rem;
+	font-size: 1.4rem;
+	line-height: 5.5rem;
+	border-bottom: 1px solid #eeeeee;
+  
+}
+
+.option,.cash-list,.store-enter{
+	cursor: pointer;
+	
+}
+
+#tel_phone{
+	display: none;
+}

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, 
+			initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+			<meta name="format-detection" content="telephone=yes" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link href="//fonts.gdgdocs.org/css?family=Lobster" rel="stylesheet" type="text/css"/>
+		<link href="css/push_demand.css" rel="stylesheet" type="text/css"/>
+	    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js" ></script>
+		<title></title>
+		<style>
+			@font-face {font-family: 'iconfont';
+                  src: url('font/iconfont.eot'); /* IE9*/
+                  src: url('font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                  url('font/iconfont.woff') format('woff'), /* chrome、firefox */
+                  url('font/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                  url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+               }
+            .col-center{
+            	float: none;
+            	display: block;
+            	margin-left: auto; 
+                margin-right: auto; 
+            }
+			textarea{
+				text-align: start; 
+				padding: 0;
+			}
+			
+			#work-address{
+				height: 10rem;
+				overflow: hidden;
+			}
+			
+			.modal-body{
+				text-align: center;
+				font-size: 2rem;
+			}
+
+		</style>
+	</head>
+	<body>
+		<script type="application/javascript">
+			var time=["","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","24:00"];
+			var type=["","月嫂","保姆服务","日常保洁","新居开荒","擦玻璃","家电清洗","家电维修"];
+			var addresses=new Array();
+			function appendTimeOptions(start){
+				$("#work-time").html('');
+				var _str='<option class="option-style" value="'+0+'">'+time[0]+'</option>';
+				$("#work-time").append(_str);
+				for(var i=start+1;i<time.length;i++){
+					var str='<option class="option-style" value="'+(i+7)+'">'+time[i]+'</option>';
+					$("#work-time").append(str);
+				}
+			}
+			
+			function appendTypeOptions(){
+				$("#work-type").remove("option");
+				for(var i=0;i<type.length;i++){
+					var str='<option class="option-style" value="'+i+'">'+type[i]+'</option>';
+					$("#work-type").append(str);
+				}
+			}
+			
+			function cmpDate(date1,date2){
+				if(date1.getFullYear()==date2.getFullYear()&&date1.getMonth()==date2.getMonth()&&date1.getDate()==date2.getDate()){
+					return true;
+				}
+				return false;
+			}
+			
+
+			function clickDateInput(){
+				var dateStr=$("#work-date").val();
+				var dateStrs=dateStr.split('-');
+				var day=new Date(dateStrs[0],dateStrs[1]-1,dateStrs[2]);
+				var _date=new Date();
+				var today=new Date(_date.getFullYear(),_date.getMonth(),_date.getDate());
+				if(day<today){
+					var dateStr=$("#work-date").val("");
+					appendTimeOptions(24);
+				}		
+				else if(cmpDate(day,today)){
+					var hour=_date.getHours();
+					if(hour<8){
+						appendTimeOptions(0);
+					}else{
+						appendTimeOptions(hour-7);
+					}
+				}else{
+					appendTimeOptions(0);
+				}
+			}
+			
+			function commit(){
+				
+				$("input").parent().removeClass('has-error');
+				$("select").parent().removeClass('has-error');
+				$("textarea").parent().removeClass('has-error');
+				$("#work-address").parent().removeClass('has-error');
+				var dateStr=$("#work-date").val();
+				if(dateStr==null||dateStr.trim()==""){
+					$("#work-date").parent().addClass('has-error');
+					return;
+				}		 
+				var workTime=$('#work-time').val();
+				if(workTime==null||workTime==0){
+					$("#work-time").parent().addClass('has-error');
+					return;
+				}
+
+				var workType=$('#work-type').val();
+				if(workType==null||workType==0){
+					$("#work-type").parent().addClass('has-error');
+					return;
+				}
+				var workPayment=$('#work-payment').val();
+				if(workPayment==null||workPayment==0){
+					$("#work-payment").parent().addClass('has-error');
+					return;
+				}
+				var workDemand=$('#work-demand').val();
+				if(workDemand==null||workDemand==0){
+					$("#work-demand").parent().addClass('has-error');
+					return;
+				}
+				/*
+				var workAddress=$('#work-address').text();
+				if(workAddress==null||workAddress.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				*/
+				var linkName=$("#link-name").text();
+				if(linkName==null||linkName.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				var linkPhone=$('#link-phone').text();
+				if(linkPhone==null||linkPhone.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				var province=$('#province').text();
+				if(province==null||province.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}			
+				var city=$('#city').text();
+				if(city==null||city.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				var region=$('#region').text();
+				if(region==null||region.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				var street=$('#street').text();
+				if(street==null||street.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				var detailAddress=$('#detail-address').text();
+				if(detailAddress==null||detailAddress.trim()==""){
+					$("#work-address").parent().addClass('has-error');
+					return;
+				}
+				var wtype=type[workType];
+				var dateStrs=dateStr.split('-');
+				var year=dateStrs[0];
+				var month=dateStrs[1];
+				var day=dateStrs[2];
+				$('#commit').attr("disabled","true");
+				$('#commit').text("发布中...");
+				$.ajax({
+					type:'post',
+					url:'pushDemand.action',
+					data:{
+						year:year,
+						month:month,
+						day:day,
+						workTime:workTime,
+						workType:wtype,
+						workPayment:workPayment,
+						linkName:linkName,
+						linkPhone:linkPhone,
+						province:province,
+						city:city,
+						region:region,
+						street:street,
+						detailAddress:detailAddress,
+						workDemand:workDemand
+					} ,
+					dataType:'json',
+					success:function(msg){
+						var data=eval(msg);
+						var result=data['resultMap']['result'];
+						if(result=='success'){
+							$('#myModal2').modal();
+						}else{
+							$('#myModal').modal();
+						}
+						$('#commit').attr("disabled","false");
+						$('#commit').text("发布");
+					},
+					error:function(){
+						$('#commit').attr("disabled","false");
+						$('#commit').text("发布");
+						$('#myModal').modal();
+					}
+				});
+			}
+			//初始化地址列表
+			function initAddress(){
+				$.ajax({
+					type:'post',
+					url:'initPushDemandAddress.action',
+					data:{},
+					dataType:'json',
+					success:function(msg){
+						var data=eval(msg);
+						var workAddress=data['resultMap']['initAddress'];
+						for(var i=0;i<workAddress.length;i++){ 
+							var obj=workAddress[i];
+							var address=new Object();
+							address.linkName=obj['linkName'];
+							address.linkPhone=obj['linkPhone'];
+							address.province=obj['province'];
+							address.city=obj['city'];
+							address.region=obj['region'];
+							address.street=obj['street'];
+							address.detailAddress=obj['detailAddress'];
+							addresses[addresses.length]=address;
+							var str='<li class="address-item" index="'+i+'">';
+							str+='<a href="#">'+address.linkName+" "+address.linkPhone+"<br>"+address.province+address.city+address.region+address.detailAddress+'</a>';
+							str+='</li>';
+							$('#address-menu').append(str);
+							$('#address-menu').append('<li class="divider"></li>');
+						}
+						$('#address-menu').append('<li class="add-address"><a id="manage-address" href="#"> + 管理地址 </a></li>');
+					},
+					error:function(){
+							alert('无法获取上门地址列表，请检查网络后重试');
+					}
+				});
+			}
+			//还原表单内容
+			function init(){
+				$.ajax({
+					type:'post',
+					url:'initPushDemand.action',
+					dataType:'json',
+					success:function(msg){
+						var data=eval(msg);
+						var initData=data['resultMap'];
+						if(initData['workDate']!=null)
+							$('#work-date').val(initData['workDate']);
+							clickDateInput();
+							$('#work-time').val(initData['workTime']);
+							$('#work-type').val(initData['workType']);
+							$('#work-payment').val(initData['workPayment']);
+							$('#work-demand').val(initData['workDemand']);
+					},
+					error:function(){
+						
+					}
+				});
+			}
+			
+			function manageAddress(){
+				var workDate=$("#work-date").val();
+				var workTime=$('#work-time').val();
+				var workType=$('#work-type').val();
+				var workPayment=$('#work-payment').val();
+				var workDemand=$('#work-demand').val();
+				var url="addressManager2.action?workDate="+workDate;
+				url+="&workTime="+workTime;
+				url+="&workType="+workType;
+				url+="&workPayment="+workPayment;
+				url+="&workDemand="+workDemand;	
+				window.location.href=url;
+			}
+			
+			$(document).ready(function(){
+				appendTypeOptions();
+				initAddress();
+				init();
+				$('#work-date').change(clickDateInput);
+				$('#commit').click(commit);
+				$('.dropdown-toggle').dropdown();
+				$('#ensure-btn').click(function(){
+					location.href="http://www.baidu.com";
+				});
+				$('#back').click(function(){
+					location.href="toIndex.action";
+				});
+			});
+			
+			$(document).on('click','.address-item',function(){
+					var index=$(this).attr('index');
+					var address=addresses[index];
+					$('#link-name').text(address.linkName);
+					$('#link-phone').text(address.linkPhone);
+					$('#province').text(address.province);
+					$('#city').text(address.city);
+					$('#region').text(address.region);
+					$('#street').text(address.street);
+					$('#detail-address').text(address.detailAddress);
+				});
+			$(document).on('click','#manage-address',manageAddress);
+		</script>
+		<div class="container">
+			<header>
+				<div class="head">	
+					<span class="back iconfont" id="back">&#xe608;</span>
+					<span class="btn commit" id="commit" >发布</span>
+				</div>
+			</header>
+			<div class="block_1"></div>
+			
+			<div class="row">
+				<div class="col-xs-8 col-center">
+					<div class="modal fade" id="myModal" style="top:13rem" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" 
+											aria-hidden="true">&times;
+									</button>
+									
+								</div>
+								<div class="modal-body text-danger">
+									发布需求失败
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" 
+											data-dismiss="modal">确定
+									</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade" id="myModal2" style="top:13rem" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+								</div>
+								<div class="modal-body">
+									发布需求成功
+								</div>
+								<div class="modal-footer">
+									<button  id="ensure-btn" type="button" class="btn btn-default" data-dismiss="modal">
+										确定
+									</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<form role="form">						
+						
+					<!--
+					<div class="form-group ">
+						<label for="link-name" class="control-label">联系人姓名：</label>
+						<input  class="form-control " id="link-name"/>
+					</div>
+					<div class="form-group ">
+						<label for="link-phone" class="control-label">联系方式：</label>
+						<input  class="form-control" id="link-phone" placeholder="手机号/电话号码"/>
+					</div>
+					-->
+					<div class="form-group ">
+						<label for="work-date" class="control-label">上门日期：</label>
+						<input type="date" class="form-control" id="work-date"/>
+					</div>
+					<div class="form-group ">
+						<label for="work-time" class="control-label">上门时间：</label>
+						<select class="form-control" id="work-time">
+						</select>
+					</div>
+					<div class="form-group ">
+						<label for="work-type" class="control-label">服务类别：</label>
+						<select class="form-control" id="work-type">
+	
+						</select>
+					</div>
+					
+					<div class="form-group ">
+						<label for="work-payment" class="control-label">填写薪酬：</label>
+						<div class="row">
+							<div class="col-xs-12 ">
+								<input class="form-control" id="work-payment" placeholder="金额+计价单位 例如:200/小时/人"/>
+							</div>
+						</div>
+						
+					</div>
+					<div class="form-group dropdown">
+						<label for="work-address" class="control-label ">上门地址：</label>
+						<div class="form-control dropdown-toggle" rows="4" id="work-address"  data-toggle="dropdown">
+							<p>
+								<span id="link-name"></span> 
+								<span>&nbsp;</span> 
+								<span id="link-phone"></span>
+							</p>
+							<p>
+								<span id="province"></span>
+								<span id="city"></span>
+								<span id="region"></span>
+								<span id="street"></span>
+								<span id="detail-address"></span>
+							</p>
+						</div>
+						<ul class="dropdown-menu" role="menu" id="address-menu">
+							<!--
+							<li class="address-item" index="0">
+					            <a href="#">林宏安 15325865182<br>浙江省温岭市松门镇北港村5号</a>
+					        </li>
+					        <li class="divider"></li>
+					        <li class="address-item" index="1">
+					            <a href="#">林宏安 15325865182<br>浙江省温岭市松门镇北港村5DD号</a>
+					        </li>
+					        <li class="divider"></li>
+					        <li class="add-address">
+					            <a href="http://www.baidu.com"> + 管理地址 </a>
+					        </li>
+					       -->
+						</ul>
+					</div>
+					<div class="form-group ">
+						<label for="work-demand" class="control-label">填写需求：</label>
+						<textarea placeholder="需求详细说明:0~500字" class="form-control" rows="4" id="work-demand" maxlength="500"></textarea>
+						
+					</div>
+			</form>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

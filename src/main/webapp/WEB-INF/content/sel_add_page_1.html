@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>选择地区</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css">	
+		<script src="js/jquery-3.1.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<style>
+			.navbar{
+				background: #00CA79;
+			}
+			
+			.navbar-header{
+				color: #fff;
+			}
+			.fa{
+				font-size:2.5rem;
+				cursor: pointer;
+			}
+			.pro{
+					padding: 1px;	
+				}
+			.pro-li{
+				width: 100%;
+				
+			}
+			#city{
+				display: none;
+			}
+			@media screen and (max-width:768px){
+				.navbar{
+					margin-right: -15px;
+					margin-left: -15px;
+				}
+
+			}
+		</style>
+	</head>
+	<body>
+		<script type="application/javascript">
+			//定义可视页面状态的枚举
+			var pageEnum={
+				province:1,
+				city:2,
+				region:3,
+				street:4
+			}
+			var pageState=pageEnum['province'];
+			var addressUnit=new Object; //保存选择的地址
+			function addressFactory(objx){
+				//连接地址obj.url;
+				//请求参数名obj.paramterName;
+				//返回的Json键名obj.dataJson;
+				//地址范围obj.area;
+				return function(areaId){
+					var obj=objx;
+					$.ajax({
+					type:"get",
+					url:obj.url,
+					data:obj.paramterName+'='+areaId, 
+					async:true,
+					dataType:'json',
+					success:function(msg){
+						var dataJson=eval(msg);
+						var data=dataJson[obj.dataJson];
+						for(var key in data){
+							var element='<div class="pro col-xs-6 col-sm-4 col-md-3"><div class="btn pro-li '+obj.area+'-li btn-default"'+obj.area+'-index="'+key+'">'+data[key]+'</div></div>';
+							$('#'+obj.area).append(element);
+						}
+					},
+					error:function(){
+						
+					}
+				});
+				}
+			}
+			
+			function addArea(areaType,areaName){
+				addressUnit[areaType]=areaName;
+			}
+			
+			function removeArea(areaType){
+				addressUnit[areaType]=null;
+			}
+			
+			$(document).ready(function(){
+				var data={  
+							url:"getProvinces", 
+							dataJson:"provincesMap",
+							area:"province"
+				};
+				var func=addressFactory(data);
+				func();
+				$('#back').click(function(){
+					switch(pageState){
+						case pageEnum['province']:
+							history.back(-1);
+							break;
+						case pageEnum['city']:
+							$('#city').html('');
+							$('#city').hide();
+							$('#province').show();
+							pageState=pageEnum['province'];
+							removeArea('province');
+							break;
+						case pageEnum['region']:
+							$('#region').html('');
+							$('#region').hide();
+							$('#city').show();
+							pageState=pageEnum['city'];
+							removeArea('city');
+							break;
+						case pageEnum['street']:
+							$('#street').html('');
+							$('#street').hide();
+							$('#region').show();
+							pageState=pageEnum['region'];
+							removeArea('region');
+							break;
+					}
+				});
+			});
+			$(document).on('click','.province-li',function(){
+						$('#province').hide();
+						$('#city').show();
+						pageState=pageEnum['city'];						
+						var index=$(this).attr('province-index');
+						var str=$(this).text();
+						addArea('province',str);
+						var data={
+							url:"getCities", 
+							paramterName:"provinceId",
+							dataJson:"citiesMap",
+							area:"city"
+						};
+						var func=addressFactory(data);
+						func(index);
+					});
+			$(document).on('click','.city-li',function(){
+						$('#city').hide();
+						$('#region').show();
+						pageState=pageEnum['region'];
+						var index=$(this).attr('city-index');
+						var str=$(this).text();
+						addArea('city',str);
+						var data={
+							url:"getRegions", 
+							paramterName:"cityId",
+							dataJson:"regionsMap",
+							area:"region"
+						};
+						var func=addressFactory(data);
+						func(index);
+					});
+			$(document).on('click','.region-li',function(){
+						$('#region').hide();
+						$('#street').show();
+						pageState=pageEnum['street'];  
+						var index=$(this).attr('region-index');
+						var str=$(this).text();
+						addArea('region',str);
+						var data={
+							url:"getStreets", 
+							paramterName:"regionId",
+							dataJson:"streetsMap",
+							area:"street"
+						};
+						var func=addressFactory(data);
+						func(index);
+					});
+			$(document).on('click','.street-li',function(){
+						var str=$(this).text();
+						addressUnit['street']=str;
+						var stg=window.sessionStorage;
+						stg.setItem('province',addressUnit['province']);
+						stg.setItem('city',addressUnit['city']);
+						stg.setItem('region',addressUnit['region']);
+						stg.setItem('street',addressUnit['street']);
+						location.href='toSelectAddressPage2';
+					});
+		</script>
+		<div class="container">
+			<header>
+				<nav class="navbar ">
+					<div class="navbar-header">
+						<div class="navbar-brand"><i id="back" class="glyphicon glyphicon-menu-left fa"></i></div>
+					</div>			
+				</nav>
+			</header>
+			<article id="province">
+				
+			</article>
+			<article id="city">
+				
+			</article>
+			<article id="region">
+				
+			</article>
+			<article id="street">
+				
+			</article>
+		</div>
+	</body>
+</html>

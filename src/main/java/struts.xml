@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.serve.static.browserCache" value="false"></constant>
+    <package name="default" namespace="/" extends="json-default">
+    <interceptors>
+      <interceptor name="checkLoginState" class="interceptor.LoginInterceptor">
+      </interceptor>
+       <interceptor name="checkJsonLoginState" class="loginJsonInterceptor">
+      </interceptor>
+    </interceptors>
+    <global-results>
+      <result name="unlogin">WEB-INF/content/login.jsp</result>
+      <result name="error">error.jsp</result>
+    </global-results>
+    
+    <!--  
+    <global-exception-mappings>
+    	<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>	
+    </global-exception-mappings>
+    -->
+    
+     <action name="login" class="loginAction">
+     <result type="stream">
+        <param name="contentType">text/html</param>
+        <param name="inputName">result</param>
+     </result>
+     </action>
+     <action name="register" class="registerAction">
+     <result type="stream">
+        <param name="contentType">text/html</param>
+        <param name="inputName">result</param>
+     </result>
+     </action>
+     <action name="toLogin" class="JumpAction" method="toLogin">
+        <result name="success">WEB-INF/content/login.jsp</result>
+     </action>
+     <action name="toUserPage" class="JumpAction" method="toUserPage">
+       <result name="success">WEB-INF/content/user_page.jsp</result>
+       <interceptor-ref name="checkLoginState"></interceptor-ref>
+     </action>
+      <action name="toIndex" class="JumpAction" method="toIndex">
+        <result name="success">index.html</result>
+     </action>
+     <action name="toPushDemand" class="JumpAction" method="toPushDemand">
+       <result name="success">WEB-INF/content/push_demand.html</result>
+       <interceptor-ref name="checkLoginState"></interceptor-ref>
+     </action>
+      <action name="toAdmin" class="JumpAction" method="toAdmin">
+       <result name="success">WEB-INF/manage/admin_login.html</result>
+     </action>
+      <action name="toAdminOperate" class="JumpAction" method="toAdminOperate">
+       <result name="success">WEB-INF/manage/admin_operate.html</result>
+     </action>
+     <action name="toCheckStore" class="JumpAction" method="toCheckStore">
+       <result name="success">WEB-INF/manage/check_store.html</result>
+     </action>
+     
+      <action name="toSelectAddressPage1" class="JumpAction" method="toSelectAddressPage1">
+       <result name="success">WEB-INF/content/sel_add_page_1.html</result>
+     </action>
+      <action name="toSelectAddressPage2" class="JumpAction" method="toSelectAddressPage2">
+       <result name="success">WEB-INF/content/sel_add_page_2.html</result>
+     </action>
+     <action name="toSelectAddressPage3" class="JumpAction" method="toSelectAddressPage3">
+       <result name="success">WEB-INF/content/sel_add_page_3.html</result>
+     </action>
+     <action name="toGetStoreInformation" class="JumpAction" method="toGetStoreInformation">
+       <result name="success">WEB-INF/content/store_inf.html</result>
+     </action>
+     
+     <action name="passwordManager" class="JumpAction" method="toPasswordManager">
+       <result name="success">WEB-INF/content/password.jsp</result>
+       <interceptor-ref name="checkLoginState"></interceptor-ref>
+     </action>
+     
+     <action name="toGenerateOrder" class="JumpAction" method="toGenerateOrder">
+       <result name="success">WEB-INF/content/generate-order.html</result>
+       <interceptor-ref name="checkLoginState"></interceptor-ref>
+     </action>
+     
+     <action name="addressManager" class="addressManager" >
+     	<result name="success">WEB-INF/content/address_manager.jsp</result>
+     </action> 
+     <action name="getProvinces" class="selectArea" method="getProvinces">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">provincesMap.*</param>
+     	</result>
+     </action>
+     
+     <action name="getCities" class="selectArea" method="getCities">
+         <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">citiesMap.*</param>
+     	</result>
+     </action>
+     <action name="getRegions" class="selectArea" method="getRegions">
+         <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">regionsMap.*</param>
+     	</result>
+     </action>
+     <action name="getStreets" class="selectArea" method="getStreets">
+         <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">streetsMap.*</param>
+     	</result>
+     </action>
+      <action name="addAddress" class="operateAddress" method="addAddress" >
+       <result name="success" type="stream">
+        <param name="contentType">text/html</param>
+        <param name="inputName">result</param>
+     </result>
+     </action>
+     <action name="delAddress" class="operateAddress" method="delAddress" >
+       <result name="success" type="stream">
+        <param name="contentType">text/html</param>
+        <param name="inputName">result</param>
+     </result>
+     </action>
+     <action name="editPassword" class="pswManagerAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+      <action name="commitApply" class="CommitApplyAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+      <action name="initIndex" class="InitIndexAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     <action name="initPushDemandAddress" class="InitPushDemandAddressAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+     <action name="initPushDemand" class="InitPushDemandAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+     <action name="pushDemand" class="PushDemandAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+      <action name="initApplyStore" class="InitApplyStoreAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+    
+    <action name="addressManager2" class="AddressManager2Action" >
+     	<result name="next" type="chain" >addressManager</result>
+     </action> 
+    
+    <action name="exitUser" class="ExitUserAction" >
+     	<result name="next" type="chain" >toLogin</result>
+     </action> 
+     
+    <action name="setPosition" class="SetPositionAction" >
+       <result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+      <action name="adminLogin" class="AdminLoginAction" >
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     <action name="storeEnter" class="StoreEnterAction" >
+       <result name="notexit">WEB-INF/content/sel_add_page_1.html</result>
+       <result name="notpass">WEB-INF/content/sel_add_page_3.html</result>
+       <result name="pass" >aaa</result>
+     </action>
+     <action name="getPicture" class="GetPictureAction" >
+      	<result name="success" type="stream">  
+               <param name="contentType">image/gif</param>  
+               <param name="inputName">imageStream</param>  
+        </result>  
+     </action>
+     <action name="getApplyStore" class="GetApplyStoreAction" >
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+      <action name="passCheck" class="CheckResultAction" method="pass">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap1.*</param>
+     	</result>
+     </action>
+     <action name="notPassCheck" class="CheckResultAction" method="notPass">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap2.*</param>
+     	</result>
+     </action>
+     <action name="getStores" class="GetStoresAction">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+     <action name="getStoreInformation" class="GetStoreInformationAction">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+      <action name="collect" class="collectAction">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     	<result name="unloginjs" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     	<interceptor-ref name="checkJsonLoginState"></interceptor-ref>
+     </action>
+     
+        <action name="collectState" class="collectStateAction">
+     	<result name="success" type="json">
+     		<param name="noCache">true</param>
+     		<param name="includeProperties">resultMap.*</param>
+     	</result>
+     </action>
+     
+     <action name="getStorePic" class="GetStorePicAction" >
+      	<result name="success" type="stream">  
+               <param name="contentType">image/gif</param>  
+               <param name="inputName">imageStream</param>  
+        </result>  
+     </action>
+    </package>
+</struts>
