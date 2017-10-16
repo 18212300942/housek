@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.ApplicationContext;
@@ -41,6 +42,7 @@ public class LoginAction extends ActionSupport {
 			}
 		} else
 			inputStream = new ByteArrayInputStream("false1".getBytes("utf-8"));
+
 		return SUCCESS;
 	}
 

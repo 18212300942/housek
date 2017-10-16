@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		
+		<link href="css/bootstrap.min.css"  />
+		<script src="js/jquery-3.1.0.min.js"></script>
+		<title></title>
+		<style>
+			body{
+				background: #00CA79;
+				
+			}
+			.ok-btn{
+				width: 40%;
+				height: 2rem;
+				margin: 0 auto;
+				padding: 1rem;
+				border: 2px white solid;
+				text-align: center;
+				color: white;
+			    line-height: 2rem;
+			    margin-top:10rem ;
+			    font-size: 1.6rem;
+			    cursor: pointer;
+			    max-width: 200px;
+			}
+			
+			.ok-btn:hover{
+				
+				background: rgba(220,220,220,10);
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				$('.ok-btn').click(function(){
+					window.location.href="toUserPage";
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<article class="container">
+			<div class="ok-btn">等待审核</div>
+		</article>
+	</body>
+</html>

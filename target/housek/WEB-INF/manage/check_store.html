@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<script src="js/jquery-3.1.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<style>
+			body{
+				background: #bae2d2;
+			}
+			.container{
+				max-width: 768px;
+			}
+			.head{
+				background: #00ca79;
+				width: 100%;
+				height: 7rem;
+				text-align: center;
+				line-height: 7rem;
+				font-size: 2.2rem;
+				color: #fafafa;
+			}
+			
+			.inf-txt{
+				font-size: 1.7rem;
+				padding: 0.3rem;
+				padding-left:2rem ;
+			}
+			
+			.car-content{
+				margin-left: 30px;
+			}
+			
+			.foot{
+				padding: 10px;
+			}
+			.foot >div{
+				margin-left: 30px;
+			}
+		</style>
+		<title></title>
+		<script>
+			function initMsg(applyStoreId){
+				$.ajax({
+					url:'initApplyStore',
+					dataType:'json',
+					type:'post',
+					data:{applyStoreId:applyStoreId},
+					success:function(msg){
+						var data=eval(msg);
+						var result=data['resultMap'];
+						if(result['result']!="success"){
+							alert('没有申请信息');
+							return;
+						}
+						var province=result['province'];
+						var city=result['city'];
+						var region=result['region'];
+						var street=result['street'];
+						var detailAddress=result['detailAddress'];
+						var storeName=result['storeName'];
+						var linkName=result['linkName'];
+						var linkPhone=result['linkPhone'];
+						var rangeType=result['rangeType'];
+						var storeType=result['storeTypez'];
+						var oPicNum=result['oPicNum'];
+						var carType=result['carType'];
+						$('#store-name').html(storeName);
+						$('#province').html(province);
+						$('#city').html(city);
+						$('#region').html(region);
+						$('#street').html(street);
+						$('#detailAddress').html(detailAddress);
+						$('#link-name').html(linkName);
+						$('#link-phone').html(linkPhone);
+						$('#range-type').html(rangeType);
+						$('#store-type').html(storeType);
+						$('#car-type').html(carType);
+						$('#main-pic-1').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=mainPic1');
+						$('#main-pic-2').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=mainPic2');
+						if(carType=="营业执照"){
+							$('#o-pic-1').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=sellPic');
+						}
+						if(carType=="其他资质"){
+							if(oPicNum==1){
+								$('#o-pic-1').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=otherPic1');
+							}
+							if(oPicNum==2){
+								$('#o-pic-1').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=otherPic1');
+								$('#o-pic-2').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=otherPic2');
+							}
+							if(oPicNum==3){
+								$('#o-pic-1').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=otherPic1');
+								$('#o-pic-2').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=otherPic2');
+								$('#o-pic-3').attr('src','getPicture?applyStoreId='+applyStoreId+'&picType=otherPic3');
+							}
+						}
+						$('.btn').attr('disabled',false);
+					},
+					error:function(){
+						
+					}
+				});
+			}
+			$(document).ready(function(){
+				var stg=window.sessionStorage;
+				var applyStoreId=stg.getItem("applyStoreId");
+				if(applyStoreId==""||applyStoreId==null){
+					alert('没有申请信息');
+					return;
+				}
+				initMsg(applyStoreId);
+			});
+			
+			function pass(){
+				$('.btn').attr('disabled',true);
+				var stg=window.sessionStorage;
+				var applyStoreId=stg.getItem("applyStoreId");
+				if(applyStoreId==""||applyStoreId==null){
+					alert('无法通过审核');
+					return;
+				}
+				$.ajax({
+					url:'passCheck',
+					dataType:'json',
+					type:'post',
+					data:{applyStoreId:applyStoreId},
+					success:function(msg){
+						var data=eval(msg);
+						var result=data['resultMap1']['result'];
+						if(result=="success"){
+							window.sessionStorage.removeItem('applyStoreId');
+							location.href="toAdminOperate";
+						}else{
+							alert('通过审核失败');
+						}
+					},
+					error:function(){
+						alert('通过审核失败');
+					}
+				});
+			}
+			
+			function notPass(){
+				$('.btn').attr('disabled',true);
+				var stg=window.sessionStorage;
+				var applyStoreId=stg.getItem("applyStoreId");
+				if(applyStoreId==""||applyStoreId==null){
+					alert('无法通过审核');
+					return;
+				}
+				$.ajax({
+					url:'notPassCheck',
+					dataType:'json',
+					type:'post',
+					data:{applyStoreId:applyStoreId},
+					success:function(msg){
+						var data=eval(msg);
+						var result=data['resultMap2']['result'];
+						if(result=="success"){
+							window.sessionStorage.removeItem('applyStoreId');
+							location.href="toAdminOperate";
+						}else{
+							alert('提交失败');
+						}
+					},
+					error:function(){
+						alert('提交失败');
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="head">
+					<span class="head-txt">商家信息审核</span>
+				</div>
+			</header>
+			<article class="content">
+				<div class="inf-txt">店铺名:<span id="store-name"></span></div>
+				<div class="inf-txt">店铺位置:<span id="province"></span><span id="city"></span><span id="region"></span><span id="street"></span><span id="detail-address"></span></div>
+				<div class="inf-txt">联系人姓名:<span id="link-name"></span></div>
+				<div class="inf-txt">联系人号码:<span id="link-phone"></span></div>
+				<div class="inf-txt">经营范围:<span id="range-type"></span></div>
+				<div class="inf-txt">商户类型:<span id="store-type"></span></div>
+				<div class="inf-txt">店铺门脸图:<br><img id="main-pic-1"/></div>
+				<div class="inf-txt">店内环境图:<br><img id="main-pic-2"/></div>
+				<div class="inf-txt">资质信息:
+					<div class="car-content">
+						<div>资质类型:<span id="car-type"></span></div>
+						<div>图片:
+							<br>
+							<img id="o-pic-1"/>
+							<br>
+							<img id="o-pic-2"/>
+							<br>
+							<img id="o-pic-3`"/>
+							<br>
+						</div>
+					</div>
+					
+				</div>
+			</article>
+			<div class="foot">
+				<div class="btn btn-primary" disabled="true" onclick="pass()">通过审核</div>
+				<div class="btn btn-danger" disabled="true" onclick="notPass()">审核失败</div>
+			</div>
+			
+		</div>
+	</body>
+</html>

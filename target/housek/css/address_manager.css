@@ -1,0 +1,262 @@
+.iconfont{font-family:"iconfont" !important;
+                      font-style:normal;
+                      -webkit-font-smoothing: antialiased;
+                      -webkit-text-stroke-width: 0.05rem;
+                      }
+            html{
+        		width: 100%;
+        		height:100%;
+        		margin: 0px;
+        		padding: 0px;
+        		
+        	}
+        	body{
+        		width: 100%;
+        		height:100%;
+        		margin: 0px ;
+        		padding: 0px;
+        		color: #777777;
+        	}
+        	
+        	.number_style{
+        		display:none;
+        	}
+
+        	.container{
+        		height: 100%;
+        		padding: 0px;
+        		max-width: 766px;
+        	    min-width:200px ;
+        	}
+.head{
+	max-width: 766px;
+  min-width:200px ;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 100%;
+    height: 5.5rem;
+    background:#00ca79;
+	position: fixed;
+	top:0;
+	z-index: 10;
+	color: #FFFFFF;
+	font-size: 2.6rem;
+}
+
+.head p{
+	line-height: 5rem;
+	margin-left: 0rem;
+}
+.head_text{
+	font-family:Tahoma;
+	margin-left:1rem ;
+}
+.head_text_2{
+	font-size: 1.8rem;
+}
+
+
+.save{
+	cursor: pointer;
+	font-size: 1.8rem;
+  float: right;
+  margin-right: 2rem;
+}
+.block_1{
+	height: 5.5rem;
+}
+.block_2{
+	height: 1rem;
+	background: #EEEEEE;
+}
+.add_address{
+	max-width: 766px;
+  min-width:200px ;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 100%;
+	height: 5rem;
+	background:#00ca79 ;
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+	line-height: 5rem;
+	text-align: center;
+		cursor: pointer;
+}
+.add_address_text{
+	color: white;
+	font-size: 2rem;
+
+}
+
+.address_message_1{
+	height:5rem;
+	position: relative;
+	z-index: 9;
+	line-height: 5rem;
+	font-size: 1.6rem;
+}
+.cus_name{
+	margin-left: 1rem;
+	color: #555555;
+}
+.cus_tel{
+	color: #555555;
+	position: absolute;
+	right: 1rem;
+}
+.address_message_2{
+	height:5rem;
+	border-bottom: 1px solid #EEEEEE;
+	font-size: 1.35rem;
+	margin-left: 1rem;
+}
+.address_operate{
+	height: 3.5rem;
+	font-size: 1.4rem;
+	padding: 0;
+	position: relative;
+	z-index: 9;
+}
+
+#set_address{
+	margin: 0;
+	line-height: 3.5rem;
+	width: 1.4rem;
+	height: 1.4rem;
+	
+}
+.set_address_text{
+	line-height: 3.5rem;
+	margin-left: 0.5rem;
+	color: #444444;
+}
+.set_address_text_right{
+	position: absolute;
+	z-index: 9;
+	right: 2rem;
+	font-size: 1.4rem;
+	line-height: 3.5rem;
+	color: #777777;
+-webkit-text-stroke-width: 0rem;
+}
+
+.set_address_text_right_icon{
+	font-size: 1.9rem;
+}
+ .head_text{
+   	 cursor: pointer;
+   }
+   .head_text_2{
+   	cursor:default;
+   }
+   .address_item{
+   	cursor: default;
+   }
+   .address_message_1{
+   	cursor: pointer;
+   }
+   .address_message_2{
+   	cursor: pointer;
+   }
+   .set_address_text_right{
+   	cursor: pointer;
+   }
+   #set_address{
+   	cursor: pointer;
+   }
+   #address-id{
+   	display: none;
+   }
+   
+
+.message_model{
+	width: 100%;
+	text-align:5.5rem;
+	border-bottom: 1px solid #eeeeee;
+	
+}
+
+.in_message_label{
+	
+	line-height: 5.5rem;
+	margin-left:1.5rem ;
+	
+}
+.in_message_input{
+	width: 60%;
+	margin-right:1.5rem ;
+	border: none;
+	outline: none;
+}
+
+.del_message{
+	
+	width: 100%;
+	height: 9rem;
+}
+
+.del_textarea{
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	padding: 1.5rem;
+}
+.block_2{
+	height: 1rem;
+	background: #EEEEEE;
+}
+.pos_div{
+	position: relative;
+	
+}
+.check{
+	position: absolute;
+	width: 1.5rem;
+	height: 1.5rem;
+	right: 1.5rem;
+	top:1.5rem
+}
+.select{
+	position: absolute;
+	line-height: 5.5rem;
+	right: 1.5rem;
+	color: #CCCCCC;
+}
+
+.area-list{
+	color: #666666;
+	padding: 0.5rem 0rem 0.5rem 1rem;
+	border-bottom: 1px solid #EEEEEE;
+}
+
+input[type=checkbox]{
+	cursor: pointer;
+}
+
+
+#main_1{
+	display: none;
+}
+
+#main_2{
+  display: none;
+}
+
+#main_3{
+	display: none;
+}
+#main_4{
+	display: none;
+}
+.feel_click{
+	cursor: pointer;
+}
+#main_5{
+	display: none;
+}
+

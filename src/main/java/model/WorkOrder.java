@@ -6,6 +6,9 @@ import javax.persistence.*;
 @Table(name="work_order")
 public class WorkOrder extends Order{
 
+	/**
+	 * 是否取消
+	 */
 	@Column(name="cancel_state",nullable=false)
 	private Boolean cancelState=false;
 
